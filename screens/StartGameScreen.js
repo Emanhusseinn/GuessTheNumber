@@ -7,4 +7,5 @@ return <View>
 </View>
 };
 
+
 export default StartGameScreen;
