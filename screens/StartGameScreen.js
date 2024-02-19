@@ -1,7 +1,30 @@
-import { TextInput, Button, Text, View, StyleSheet } from "react-native";
+import { useState } from "react";
+import { TextInput, Button, Text, View, StyleSheet, Alert } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
+import Colors from "../constants/colors";
 
-function StartGameScreen() {
+function StartGameScreen({onPickNumber}) {
+  const [enteredNumber, setEnteredNumber] = useState("");
+  function numberInputHandler(enteredText) {
+    setEnteredNumber(enteredText);
+  }
+  function resetInputHandler() {
+    setEnteredNumber('');
+  }
+  function confirmInputHandler() {
+    //converting the string number to a number
+    const chosenNumber = parseInt(enteredNumber);
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      //show alert
+      Alert.alert(
+        "Invalid Number!",
+        "Number has to be a number between 1 and 99.",
+        [{text: 'Okay', style: 'destructive', onPress: resetInputHandler }]
+      );
+      return;
+    }
+    onPickNumber(chosenNumber);
+  }
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -10,13 +33,15 @@ function StartGameScreen() {
         keyboardType="number-pad"
         autoCapitalize="none"
         autoCorrect={false}
+        value={enteredNumber}
+        onChangeText={numberInputHandler}
       />
       <View style={styles.PrimaryButtons}>
         <View style={styles.eachButtonContainer}>
-          <PrimaryButton>Reset</PrimaryButton>
+          <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
         </View>
         <View style={styles.eachButtonContainer}>
-          <PrimaryButton>Confirm</PrimaryButton>
+          <PrimaryButton onPresed={confirmInputHandler}>Confirm</PrimaryButton>
         </View>
       </View>
     </View>
@@ -30,7 +55,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     padding: 16,
     marginTop: 100,
-    backgroundColor: "#482b3a",
+    backgroundColor: Colors.primary500,
     marginHorizontal: 24,
     borderRadius: 8,
     //android shadow
@@ -47,16 +72,16 @@ const styles = StyleSheet.create({
   numberInput: {
     height: 50,
     fontSize: 32,
-    borderBottomColor: "#ddb52f",
+    borderBottomColor: Colors.accent700,
     borderBottomWidth: 2,
-    color: "#ddb52f",
+    color: Colors.accent700,
     marginVertical: 8,
     fontWeight: "bold",
     width: 50,
     textAlign: "center",
   },
-  eachButtonContainer:{
-    flex: 1
-  }
+  eachButtonContainer: {
+    flex: 1,
+  },
 });
 export default StartGameScreen;
