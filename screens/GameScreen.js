@@ -32,6 +32,12 @@ function GameScreen({ userNumber, onGameOver }) {
     // whenever these between the array changes the onGameOver(); is gonna re-execute and check if the game is over
   }, [currentGuess, userNumber, onGameOver]);
 
+  useEffect(() => {
+     minBoundry = 1;
+     maxBoundry = 100;
+    
+  }, []);
+
   function nextGuessHandler(userDirection) {
     // direction => 'lower, 'higher'
     console.log(userDirection);
