@@ -31,7 +31,7 @@ function GameScreen({ userNumber, onGameOver }) {
 
   useEffect(() => {
     if (currentGuess === userNumber) {
-      onGameOver();
+      onGameOver(guessRounds.length);
     }
     // whenever these between the array changes the onGameOver(); is gonna re-execute and check if the game is over
   }, [currentGuess, userNumber, onGameOver]);
